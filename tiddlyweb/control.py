@@ -162,10 +162,12 @@ def _filter_tiddlers_from_bag(bag, filters, environ=None):
     The filter is a string that will be parsed to a list of filters.
     """
     indexable = bag
-
+    tiddlers = []
+    for tiddler in bag.store.list_bag_tiddlers(bag):
+      tiddlers.append(bag.store.get(tiddler))
     if isinstance(filters, basestring):
         filters, _ = parse_for_filters(filters, environ)
-    return recursive_filter(filters, bag.store.list_bag_tiddlers(bag),
+    return recursive_filter(filters, tiddlers,
             indexable=indexable)
 
 
